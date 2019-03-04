@@ -59,6 +59,7 @@ body {
     font-weight: bold;
     border-radius: 5%;
     font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
 }
 
 #reket1 {
@@ -150,14 +151,6 @@ hr {
     color: yellow;
 }
 
-#pocetakIgre {
-    position: absolute;
-    float: left;
-    width:400px;
-    height:280px;
-    top: 120px;
-    left: 70px;
-}
 
 p {
     font-size: 28px;
@@ -184,10 +177,7 @@ p {
     font-weight: bold;
 }
 
-#pocetak {
-    border-radius: 7%;
-    font-weight: bold;
-}
+
 #pocetni {
     width:290px;
     height: 60px;
@@ -199,7 +189,8 @@ p {
     text-align: center;
     background-color: #f44262;
     padding:16px;
-    
+    cursor: pointer;
+    color: white;
 }
 
 #srednji {
@@ -214,6 +205,8 @@ p {
     text-align: center;
     background-color: #f44262;
     padding:16px;
+    cursor: pointer;
+    color: white;
 }
 
 #ekspert {
@@ -228,31 +221,11 @@ p {
     text-align: center;
     background-color:#f44262;
     padding:16px;
+    cursor: pointer;
+    color: white;
 }
 
-#pocetni:hover {background-color: #3e8e41}
 
-#pocetni:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-#srednji:hover {background-color: #3e8e41}
-
-#srednji:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-#ekspert:hover {background-color: #3e8e41}
-
-#ekspert:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
 
 
 #start:hover {background-color: #41f4f4}
