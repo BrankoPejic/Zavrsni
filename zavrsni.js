@@ -9,7 +9,7 @@ let brzina, // brzina loptice
     rezultat1,
     rezultat2,
     ukupanBrojPoena,
-    naServisu, // 0 - igrac na servisu   1 - racunar na servisu
+    naServisu, // 0 - igrac na servisu   1 - igrac2 na servisu
     stopMoving = 0,  // kad je jednako 1 zaustavlja pomeranje reketa igraca
     promenaUglaLoptice,// promenljiva kojom cemo da menjamo ugao pod kojim ce se loptica kretati u poenu
     smerX, smerY, // smer u x i y pozicijama
@@ -19,16 +19,18 @@ let brzina, // brzina loptice
     interval, // varijabla za interval 
     brojUdaraca,
     faktorBrzineLoptice = 1;
-    
 
+//pre pocetka igre dugme "Servis" je disable dok se ne izabere nivo
+document.getElementById("start").disabled = true;
 
-document.getElementById("pocetni").addEventListener("click",pocetni);
+//pozivanje funkcija za nivoe racunara na klik pre pocetka 
+document.getElementById("pocetni").addEventListener("click", pocetni);
 
-document.getElementById("srednji").addEventListener("click",srednji);
+document.getElementById("srednji").addEventListener("click", srednji);
 
-document.getElementById("ekspert").addEventListener("click",ekspert);
+document.getElementById("ekspert").addEventListener("click", ekspert);
 
-// na dugme Servis pocinjemo svaki poen
+// na dugme "Servis" pocinjemo svaki poen
 document.getElementById("start").addEventListener("click", Start);
 
 // IIFE Funkcija u kojoj stavljamo pocetne vrednosti promenjivih //
@@ -55,8 +57,10 @@ document.getElementById("start").addEventListener("click", Start);
     rezultat2 = 0;
     set1 = 0;
     set2 = 0;
-    brzina = 0,
-    racunarBrzina = 0,
+    // default nivo racunara je pocetni
+    document.getElementById("pocetni").style.backgroundColor = "blue";
+    brzina = 2.8,
+    racunarBrzina = 3.2,
     racunarY = 250;// pozicija reketa racunara po Y osi
     igracY = 250;// pozicija reketa igraca po Y osi
     smerX = smerY = brzina;
@@ -107,10 +111,12 @@ function ispisSetova() {
 function igracNaServisu() {
     if (naServisu == 0) // igrac
     {
-        lopticaX = 50; //pozicija loptice kada je igrac na servisu
+        lopticaX = 50; //pozicija loptice kada je igrac na servisu po x i y osi
         lopticaY = 280;
         document.getElementById("igrac").style.color = "#42f4e8";// kada je igrac na servisu ime "igrac" dobija plavu boju
         document.getElementById("racunar").style.color = "white";// "racunar" za to vreme ostaje bele boje
+
+        // menjanje smera loptice, ako servira igrac, loptica mora da ide u desno, tj brzina treba da bude u plusu
 
     } else // racunar
     {
@@ -135,10 +141,15 @@ function pobednik() {
 
 
 function pocniPoen() {
+
+
+
+    document.getElementById("start").disabled = false;
     // definisemo ukupan broj poena kao zbir oba rezultata
     ukupanBrojPoena = rezultat2 + rezultat1;
     brojUdaraca = 0;
     faktorBrzineLoptice = 1;
+
     naServisu = redosledServiranja(ukupanBrojPoena);
     igracNaServisu(); // postavlja poziciju loptice u zavisnoti ko je na servisu
 
@@ -168,6 +179,8 @@ function redosledServiranja(brojPoena) { // funkcija za serviranje kojom definis
 
 // funkcija GameLoop koja se neprestano ponavlja
 function GameLoop() {
+
+
     // pomeranje loptice
     lopticaX += faktorBrzineLoptice * smerX;
     lopticaY += faktorBrzineLoptice * promenaUglaLoptice * smerY;
@@ -179,18 +192,19 @@ function GameLoop() {
 
     // proveravamo da li je loptica prosla pored reketa igraca
 
-    if (lopticaX -25 <= 0) {
+    if (lopticaX <= 0) {
 
         rezultat2 += 1;
         ispisRezultata();
         clearInterval(interval); //brisemo interval da bi poceo novi poen
         pocniPoen();
         audio2.play();
+
     }
 
     // proveravamo da li je loptica prosla pored reketa racunara
 
-    if ((lopticaX + 25) > poljeZaIgru.width) {
+    if ((lopticaX + loptica.offsetWidth) > poljeZaIgru.offsetWidth) {
         rezultat1 += 1;
         ispisRezultata();
         clearInterval(interval);
@@ -206,32 +220,44 @@ function GameLoop() {
     }
 
     // ako loptica udari u reket igraca
-    if (lopticaX <= (reket1.offsetLeft + reket1.offsetWidth)) {
+    if ((lopticaX) < (reket1.offsetLeft + reket1.offsetWidth - 5)) {
 
-        if (((lopticaY + loptica.offsetHeight) >= igracY) && (lopticaY <= (igracY + reket1.offsetHeight))) {
+        if (((lopticaY) >= igracY) && (lopticaY + 20 <= (igracY + reket1.offsetHeight))) {
+
+            // ako loptica udari u cosak reketa menjamo ugao odbitka random
+            if (((lopticaY) <= igracY + 20) || (lopticaY + 40 >= (igracY + reket1.offsetHeight))) {
+                promenaUglaLoptice = (randomBroj(60, 150)) / 100;
+            }
+
+
             smerX = -smerX;
-        }
-        audio1.play();
-        brojUdaraca++;
-        if (brojUdaraca == 5)
-            faktorBrzineLoptice = 1.15;
-        if (brojUdaraca == 10)
-            faktorBrzineLoptice = 1.25;
-            
-        if (brojUdaraca == 15) {
-            faktorBrzineLoptice = 1.35;
-        }
-        if (brojUdaraca == 20) {
-            faktorBrzineLoptice = 1.45;
-            racunarBrzina+=1;
-        }
-        if (brojUdaraca == 25) {
-            faktorBrzineLoptice = 1.55;
-        }
-        if (brojUdaraca == 30) {
-            faktorBrzineLoptice = 1.65;
-        }
+            lopticaX += 8;
 
+
+            audio1.play();
+
+            //posle 5 udaraca povecavamo brzinu loptice 
+            brojUdaraca++;
+            if (brojUdaraca == 5)
+                faktorBrzineLoptice = 1.15;
+            if (brojUdaraca == 10)
+                faktorBrzineLoptice = 1.25;
+
+            if (brojUdaraca == 15) {
+                faktorBrzineLoptice = 1.35;
+            }
+            if (brojUdaraca == 20) {
+                faktorBrzineLoptice = 1.45;
+                racunarBrzina += 1;
+            }
+            if (brojUdaraca == 25) {
+                faktorBrzineLoptice = 1.55;
+            }
+            if (brojUdaraca == 30) {
+                faktorBrzineLoptice = 1.65;
+            }
+
+        }
 
     }
 
@@ -239,44 +265,50 @@ function GameLoop() {
     if ((lopticaX + loptica.offsetWidth) >= (reket2.offsetLeft)) {
         if (((lopticaY + loptica.offsetHeight) >= racunarY) && (lopticaY <= (racunarY + reket2.offsetHeight))) {
             smerX = -smerX;
-        }
-        audio1.play();
 
-        brojUdaraca++;
-        if (brojUdaraca == 5)
-            faktorBrzineLoptice = 1.15;
-        if (brojUdaraca == 10)
-            faktorBrzineLoptice = 1.25;
-        if (brojUdaraca == 15) {
-            faktorBrzineLoptice = 1.35;
-        }
-        if (brojUdaraca == 20) {
-            faktorBrzineLoptice = 1.45;
-            racunarBrzina+=1;
-        }
-        if (brojUdaraca == 25) {
-            faktorBrzineLoptice = 1.55;
-        }
-        if (brojUdaraca == 30) {
-            faktorBrzineLoptice = 1.65;
-        }
+            audio1.play();
+            lopticaX -= 10;
 
+            //u slucaju racunara povecavamo brzinu loptice ali i brzinu reketa racunara da bi bi racunar mogao da vraca te brze loptice
+            brojUdaraca++;
+            if (brojUdaraca == 5)
+                faktorBrzineLoptice = 1.15;
+            if (brojUdaraca == 10)
+                faktorBrzineLoptice = 1.25;
+            if (brojUdaraca == 15) {
+                faktorBrzineLoptice = 1.35;
+            }
+            if (brojUdaraca == 20) {
+                faktorBrzineLoptice = 1.45;
+                racunarBrzina += 1;
+            }
+            if (brojUdaraca == 25) {
+                faktorBrzineLoptice = 1.55;
+            }
+            if (brojUdaraca == 30) {
+                faktorBrzineLoptice = 1.65;
+            }
 
+        }
 
     }
 
 
-    
     // pomeranje reketa racunara
     // reket se pomera samo u slucaju da loptica ide ka reketu racunara
     if (smerX > 0) {
         if ((racunarY + (reket2.offsetHeight)) > (lopticaY + loptica.offsetHeight)) {
-            racunarY -= racunarBrzina;
+
+            if (racunarY > 0) {
+                racunarY -= racunarBrzina;
+                reket2.style.top = racunarY + 'px';
+            }
         }
         else {
             racunarY += racunarBrzina;
+            reket2.style.top = racunarY + 'px';
         }
-        reket2.style.top = racunarY + 'px';
+
     }
 
 }
@@ -300,10 +332,10 @@ function pomeranjeReketa(e) {
 // START GAME funkcija kojom pocinje igra i koja se pokrece na SERVIS dugme
 function Start() {
 
+
+
     // postavljamo funkciju za pomeranje reketa igraca
     poljeZaIgru.onmousemove = pomeranjeReketa;
-    // pozivamo funkciju GameLoop svakih 10 milisekundi
-    interval = setInterval('GameLoop()', 10);
 
 
     stopMoving = 0; // dozvoljavamo kretanje reketa igraca
@@ -311,33 +343,72 @@ function Start() {
     //menjamo ugao loptice pomocu random funkcije,tako da ce random od poena do poena loptica ici u razlicitim uglovima 
     promenaUglaLoptice = (randomBroj(60, 150)) / 100;
     //u ovom slucaju brzinu dobijamo tako sto istu delimo sa brojem koji definise ugao loptice
-    brzina /= promenaUglaLoptice;
+    //   brzina /= promenaUglaLoptice;
     //zatim smerovima dodeljujemo vrednosti dobijene brzine
-    smerX = brzina;
+
+    if (naServisu == 1) // ako je racunar na servisu brzina treba da bude negativna
+    {
+        if (brzina >= 0)
+            smerX = -brzina;
+        else smerX = brzina;
+    }
+    else        // ako je igracna servisu brzina treba da bude pozitivna
+    {
+        if (brzina >= 0)
+            smerX = brzina;
+        else smerX = -brzina;
+    }
+
     smerY = brzina;
 
-/*if (smerX<0) {smerX = -brzina}
-else if  (smerX>0) {smerX = brzina};
-if (smerY<0) {smerY = -brzina}
-else if  (smerY>0) {smerY = brzina};*/
+
+    // pozivamo funkciju GameLoop svakih 10 milisekundi
+    interval = setInterval('GameLoop()', 10);
+
+    //onemogucujemo klik na dugme "Servis" u toku poena,samo pre svakog poena
+    document.getElementById("start").disabled = true;
 
 }
+
+
 //nivoi racunara koji se biraju pre same igre
 function pocetni() {
-    racunarBrzina = 3;
+    racunarBrzina = 3.2;
     brzina = 2.8;
+    document.getElementById("ekspert").style.backgroundColor = "#f44262";
+    document.getElementById("pocetni").style.backgroundColor = "blue";
+    document.getElementById("srednji").style.backgroundColor = "#f44262";
 
+//onemogucujemo klik na druge nivoe kada je jedan od ponudjenuh izabran,u sva tri slucaja radmo istu stvar
     
+    document.getElementById("srednji").disabled = true;
+    document.getElementById("ekspert").disabled = true;
+   
+
 }
 function srednji() {
-    racunarBrzina = 4;
-    brzina = 4;
+    racunarBrzina = 4.2;
+    brzina = 3.6;
+    document.getElementById("ekspert").style.backgroundColor = "#f44262";
+    document.getElementById("srednji").style.backgroundColor = "blue";
+    document.getElementById("pocetni").style.backgroundColor = "#f44262";
+
+    document.getElementById("pocetni").disabled = true;
+    document.getElementById("srednji").disabled = true;
+    document.getElementById("ekspert").disabled = true;
     
 
 }
 function ekspert() {
     racunarBrzina = 6;
-    brzina = 5;
+    brzina = 4.5;
+    document.getElementById("ekspert").style.backgroundColor = "blue";
+    document.getElementById("srednji").style.backgroundColor = "#f44262";
+    document.getElementById("pocetni").style.backgroundColor = "#f44262";
+  
+    document.getElementById("pocetni").disabled = true;
+    document.getElementById("srednji").disabled = true;
+    document.getElementById("ekspert").disabled = true;
 }
 
 
