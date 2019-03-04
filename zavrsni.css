@@ -1,0 +1,271 @@
+* {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+body {
+    background-color:darkslategray
+}
+#poljeZaIgru{
+    width: 800px;
+    height: 550px;
+    background-color: green;
+    position: relative;
+    margin-left: 550px;
+    margin-top: 90px;
+    border: solid 4px white;
+}
+
+#loptica {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: yellow;
+    position: absolute;   
+}
+
+#rezultat1 {
+    position: absolute;
+     top: 63px;
+     left: 44%;
+     color: yellow;
+     width: 77px;
+     height: 61px;
+     font-size: 35px;
+     font-weight: bold;
+     text-align: center;
+ }
+ 
+ #rezultat2 {
+    position: absolute;
+     top: 63px;
+     right: 16%;
+     color: yellow;
+     width: 77px;
+     height: 61px;
+     font-size: 35px;
+     font-weight: bold;
+     text-align: center;
+ }
+
+ #start {
+    position: relative;
+    top: 5px;
+    left:13%;
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 5%;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#reket1 {
+    position: absolute;
+    top:230;
+    left:0;
+}
+
+#reket2 {
+    position: absolute;
+    top:230;
+    right:0;
+}
+
+#mreza {
+    position: absolute;
+    width:5px;
+    height:550px;
+    border: dotted 5px white;
+    left: 49%;  
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: 10px;
+    color: white;
+    margin-left: 400px; 
+}
+
+#igrac {
+    position:absolute;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    left: 42%;
+    top:0;
+    color: white;
+}
+
+#racunar {
+    position:absolute;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    right: 15%;
+    top:0;
+    color: white;
+}
+
+#poen {
+    position: absolute;
+    font-size: 28px;
+    font-family: 'Courier New', Courier, monospace;
+    left:37%;
+    top:40px;
+    color: white;
+}
+
+#set {
+    position: absolute;
+    font-size: 28px;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    left:37%;
+    top: 80px;
+}
+
+hr {
+    color: white;
+    height: 3px;
+    margin-top:290px;
+}
+
+#set1 {
+    position: absolute;
+    font-size : 35px;
+    font-weight: bold;
+    left: 46%;
+    top: 100px;
+    color: yellow;
+}
+
+#set2 {
+    position: absolute;
+    font-size : 35px;
+    font-weight: bold;
+    right: 272px;
+    top: 100px;
+    color: yellow;
+}
+
+#pocetakIgre {
+    position: absolute;
+    float: left;
+    width:400px;
+    height:280px;
+    top: 120px;
+    left: 70px;
+}
+
+p {
+    font-size: 28px;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    font-weight: bold;
+}
+
+#izborNivoaRacunara {
+    position: absolute;
+    left:100px;
+    top:200px;
+    width: 300px;
+    height:300px;
+    font-size: 24px;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    font-weight: bold;
+   
+}
+
+#submit {
+    border-radius: 7%;
+    font-weight: bold;
+}
+
+#pocetak {
+    border-radius: 7%;
+    font-weight: bold;
+}
+#pocetni {
+    width:290px;
+    height: 60px;
+    border: 2px solid white;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border-radius: 50%;
+    text-align: center;
+    background-color: #f44262;
+    padding:16px;
+    
+}
+
+#srednji {
+    width:290px;
+    height: 60px;
+    border: 2px solid white;
+    margin-top: 10px;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border-radius: 50%;
+    text-align: center;
+    background-color: #f44262;
+    padding:16px;
+}
+
+#ekspert {
+    width:290px;
+    height: 60px;
+    border: 2px solid white;
+    margin-top: 10px;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border-radius: 50%;
+    text-align: center;
+    background-color:#f44262;
+    padding:16px;
+}
+
+#pocetni:hover {background-color: #3e8e41}
+
+#pocetni:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+#srednji:hover {background-color: #3e8e41}
+
+#srednji:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+#ekspert:hover {background-color: #3e8e41}
+
+#ekspert:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+#start:hover {background-color: #41f4f4}
+
+#start:active {
+  background-color: #41f4f4;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+#reketi {
+    position: absolute;
+    float: left;
+    left:170px;
+    top:90px;
+}
