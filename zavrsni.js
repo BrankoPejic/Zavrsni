@@ -342,8 +342,7 @@ function Start() {
 
     //menjamo ugao loptice pomocu random funkcije,tako da ce random od poena do poena loptica ici u razlicitim uglovima 
     promenaUglaLoptice = (randomBroj(60, 150)) / 100;
-    //u ovom slucaju brzinu dobijamo tako sto istu delimo sa brojem koji definise ugao loptice
-    //   brzina /= promenaUglaLoptice;
+    
     //zatim smerovima dodeljujemo vrednosti dobijene brzine
 
     if (naServisu == 1) // ako je racunar na servisu brzina treba da bude negativna
